@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { MenuItem } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import api from '../../api.js';
+import { useUser } from '../../contexts/users/index.js';
 
 import {
   HeaderStyle,
@@ -23,6 +23,7 @@ import {
 } from './style';
 
 function FormRegister({ loginPage, setLoginPage }) {
+  const { onSubmitRegister,backToLogin } = useUser()
   const history = useHistory();
   
   const [module, setModule] = useState('Primeiro módulo');
@@ -77,67 +78,7 @@ function FormRegister({ loginPage, setLoginPage }) {
     }
   }, []);
 
-  const onSubmitFunction = (dataUser) => {
-    const newData = Object.entries(dataUser).filter(
-      (elem) => elem[0] !== 'confirmPassword'
-    );
 
-    let data = {};
-
-    newData.forEach((elem) => {
-      let value = elem[1];
-      let key = elem[0];
-
-      data[key] = value;
-    });
-    console.log(data);
-    api
-      .post('/users', data, {
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .then((response) => {
-        toast.success('Conta criada com sucesso!', {
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          position: 'top-right',
-          autoClose: 2500,
-          progress: undefined,
-          theme: 'dark',
-        });
-
-        const backLogin = () => {
-          history.push('/');
-        };
-
-        setTimeout(backLogin, 3000);
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.data.message === 'Email already exists') {
-          toast.error(
-            'Email pertence a uma conta existente! Por favor insira um email diferente.',
-            {
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              position: 'top-right',
-              autoClose: 4700,
-              theme: 'dark',
-            }
-          );
-        }
-      });
-  };
-
-  
-  function backToLogin() {
-    window.localStorage.clear();
-    history.push("/");
-  }
 
   return (
     <>
@@ -154,7 +95,7 @@ function FormRegister({ loginPage, setLoginPage }) {
         <p>Rápido e grátis, vamos nessa</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmitFunction)}>
+      <form onSubmit={handleSubmit(onSubmitRegister)}>
         <label>
           <p>Nome</p> 
           <InputStyle
