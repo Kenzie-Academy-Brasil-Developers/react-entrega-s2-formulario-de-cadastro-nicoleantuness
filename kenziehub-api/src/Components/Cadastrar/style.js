@@ -64,7 +64,7 @@ export const SelectStyle = muiStyles.styled(Select)`
 `;
 
 export const HeaderStyle = styled.nav`
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
