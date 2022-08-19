@@ -1,25 +1,21 @@
 import { useState } from "react";
 
 import FormAddTech from "../FormAddTech";
-import ModalEdit from "../ModalEdit";
 import CardTech from "../CardTech";
 
 import EditIcon from "@mui/icons-material/Edit";
 import { ThemeProvider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+
 import { StyledMain, StyledButton } from "./style";
 import { theme } from "../../styles/global";
 
-const Main = ({ techs, openModalAdd, setOpenModalAdd }) => {
+const CardMainTech = ({ techs, openModalAdd, setOpenModalAdd }) => {
   const [ userTechs, setUserTechs ] = useState([])
 
-  const [cardEdit, setCardEdit] = useState(false);
 
-  const handleModalEdit = () => {
-    setCardEdit(true);
-  };
 
-  const handleModalAdd = () => {
+  const modalAdd = () => {
     setOpenModalAdd(true);
   };
 
@@ -48,7 +44,7 @@ const Main = ({ techs, openModalAdd, setOpenModalAdd }) => {
             <StyledButton
               variant="filled"
               aria-label="add"
-              onClick={handleModalAdd}
+              onClick={modalAdd}
             >
               <AddIcon sx={{ color: "#fff" }} />
             </StyledButton>
@@ -56,7 +52,7 @@ const Main = ({ techs, openModalAdd, setOpenModalAdd }) => {
             <StyledButton
               variant="filled"
               aria-label="edit"
-              onClick={handleModalEdit}
+              
             >
               <EditIcon />
             </StyledButton>
@@ -84,21 +80,9 @@ const Main = ({ techs, openModalAdd, setOpenModalAdd }) => {
           openModalAdd={openModalAdd}
           setOpenModalAdd={setOpenModalAdd}
         />
-
-        {cardEdit && (
-          <ModalEdit
-            techs={techs}
-            userTechs={userTechs}
-            setUserTechs={setUserTechs}
-            techStatus={techStatus}
-            modalEdit={cardEdit}
-            setCardEdit={setCardEdit}
-            openModalEdit={handleModalEdit}
-          />
-        )}
       </ThemeProvider>
     </StyledMain>
   );
 };
 
-export default Main;
+export default CardMainTech;
