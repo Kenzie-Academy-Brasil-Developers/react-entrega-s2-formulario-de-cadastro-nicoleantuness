@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import api from "../../api.js";
 import { ButtonStyle, StyledInfo, StyledDivHome } from "./style";
-import Main from "../../Components/Main";
+import CardMainTech from "../Main";
 
 function Dashboard() {
   const params = useParams();
@@ -43,7 +43,7 @@ function Dashboard() {
             <p>{user.data.course_module}</p>
           </StyledInfo>
         <StyledDivHome>
-          <Main
+          <CardMainTech
             techs={user.data.techs}
             openModalAdd={openModalAdd}
             setOpenModalAdd={setOpenModalAdd}

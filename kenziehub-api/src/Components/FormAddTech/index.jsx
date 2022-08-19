@@ -21,7 +21,7 @@ import {
   StyledSelect,
 } from "./style";
 
-function FormAddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenModalAdd }) {
+function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenModalAdd }) {
   const [status, setStatus] = useState("Iniciante");
 
   const handleChange = (event) => {
@@ -162,4 +162,4 @@ function FormAddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpe
   );
 };
 
-export default FormAddTech;
+export default AddTech;
