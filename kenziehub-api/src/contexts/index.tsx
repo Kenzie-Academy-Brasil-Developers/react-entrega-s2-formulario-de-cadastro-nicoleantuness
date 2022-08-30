@@ -1,6 +1,8 @@
 import { UserProvider } from "./users";
-
-const Providers = ({ children }) =>{
+interface Children {
+    children: React.ReactNode;
+}
+const Providers = ({ children } : Children) =>{
     return(
         <UserProvider>
             { children }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import Dashboard from "../../Components/Dashboard";
+import Dashboard from "../../Components/Dashboard/index.tsx";
 import Main from "../../Components/Main";
 import api from "../../api.js";
 import { StyledDivHome } from "./style";

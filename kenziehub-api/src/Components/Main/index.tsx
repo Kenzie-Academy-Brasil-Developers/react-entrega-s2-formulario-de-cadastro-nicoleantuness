@@ -1,38 +1,28 @@
 import { useState } from "react";
 
-import FormAddTech from "../FormAddTech";
-import CardTech from "../CardTech";
-
-import EditIcon from "@mui/icons-material/Edit";
 import { ThemeProvider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { StyledMain, StyledButton } from "./style";
 import { theme } from "../../styles/global";
 
-const CardMainTech = ({ techs, openModalAdd, setOpenModalAdd }) => {
-  const [ userTechs, setUserTechs ] = useState([])
+
+import FormAddTech from "../FormAddTech";
+
+import CardTech from "../CardTech";
+import {ITechs }from "../Dashboard"
 
 
 
-  const modalAdd = () => {
+const CardMainTech = () => {
+  const [userTechs, setUserTechs] = useState<ITechs[]>([] as ITechs[]);
+  const [openModalAdd, setOpenModalAdd] = useState<boolean>(false);
+
+  const handleOpenModalAdd = () => {
     setOpenModalAdd(true);
   };
 
-  const techStatus = [
-    {
-      value: "Iniciante",
-      label: "Iniciante",
-    },
-    {
-      value: "Intermediário",
-      label: "Intermediário",
-    },
-    {
-      value: "Avançado",
-      label: "Avançado",
-    },
-  ];
 
   return (
     <StyledMain>
@@ -42,17 +32,14 @@ const CardMainTech = ({ techs, openModalAdd, setOpenModalAdd }) => {
 
           <div className="Main-topDiv-buttons">
             <StyledButton
-              variant="filled"
               aria-label="add"
-              onClick={modalAdd}
+              onClick={handleOpenModalAdd}
             >
               <AddIcon sx={{ color: "#fff" }} />
             </StyledButton>
 
             <StyledButton
-              variant="filled"
               aria-label="edit"
-              
             >
               <EditIcon />
             </StyledButton>
@@ -60,7 +47,7 @@ const CardMainTech = ({ techs, openModalAdd, setOpenModalAdd }) => {
         </div>
         {userTechs.length !== 0 && (
           <ul className="Main-ul">
-            {userTechs.map((tech) => {
+            {userTechs.map((tech : ITechs) => {
               return (
                 <CardTech
                   key={tech.id}
@@ -74,12 +61,12 @@ const CardMainTech = ({ techs, openModalAdd, setOpenModalAdd }) => {
         )}
 
         <FormAddTech
-          techStatus={techStatus}
           userTechs={userTechs}
           setUserTechs={setUserTechs}
           openModalAdd={openModalAdd}
           setOpenModalAdd={setOpenModalAdd}
         />
+
       </ThemeProvider>
     </StyledMain>
   );

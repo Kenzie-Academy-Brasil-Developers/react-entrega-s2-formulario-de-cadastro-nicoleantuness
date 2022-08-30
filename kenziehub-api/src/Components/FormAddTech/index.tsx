@@ -1,6 +1,6 @@
 import { useState } from "react";
-
-import api from "../../api.js";
+import { ITechs } from "../Dashboard";
+import api from "../../api";
 
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Fade, MenuItem, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/material/styles";
 
 import {
   StyledBox,
@@ -20,13 +21,33 @@ import {
   StyledModal,
   StyledSelect,
 } from "./style";
+import { AxiosError, AxiosResponse } from "axios";
 
-function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenModalAdd }) {
+interface IData {
+  title: string;
+  status: string;
+}
+
+interface IProps {
+  userTechs: ITechs[];
+  openModalAdd: boolean;
+  setUserTechs: (techs: ITechs[]) => void;
+  setOpenModalAdd: (boolean: boolean) => void;
+}
+
+function AddTech({
+  userTechs,
+  setUserTechs,
+  openModalAdd,
+  setOpenModalAdd,
+}: IProps) {
   const [status, setStatus] = useState("Iniciante");
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setStatus(event.target.value);
   };
+
+  const techStatus: string[] = ["Iniciante", "Intermediário", "Avançado"];
 
   const formSchema = yup.object().shape({
     title: yup.string().required("Nome da tecnologia é obrigatório."),
@@ -40,13 +61,13 @@ function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenMod
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<IData>({
     resolver: yupResolver(formSchema),
   });
 
   const userToken = window.localStorage.getItem("token");
 
-  const onSubmitFunction = (data) => {
+  const onSubmitFunction = (data: IData) => {
     api
       .post(`/users/techs`, data, {
         headers: {
@@ -54,7 +75,7 @@ function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenMod
           Authorization: `Bearer ${userToken}`,
         },
       })
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         setUserTechs([...userTechs, response.data]);
         toast.success("Tecnologia adcionada com sucesso!", {
           position: "top-right",
@@ -68,7 +89,7 @@ function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenMod
         });
         handleCloseModalAdd();
       })
-      .catch((error) => {
+      .catch((error: AxiosError) => {
         console.log(error);
         toast.error("Algo deu errado.", {
           position: "top-right",
@@ -118,7 +139,6 @@ function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenMod
                     placeholder="Nome da tecnologia"
                     {...register("title")}
                     error={errors.title ? true : false}
-                    helperText={errors.title ? errors.title.message : null}
                   />
                 </label>
 
@@ -132,15 +152,15 @@ function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenMod
                     value={status}
                     onChange={handleChange}
                   >
-                    {techStatus.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
+                    {techStatus.map((option: string) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
                       </MenuItem>
                     ))}
                   </StyledSelect>
                 </label>
                 <StyledButton variant="contained" type="submit">
-                  Adcionar tecnologia 
+                  Adcionar tecnologia
                 </StyledButton>
               </StyledForm>
             </StyledBox>
@@ -160,6 +180,6 @@ function AddTech({ userTechs, setUserTechs, techStatus, openModalAdd, setOpenMod
       />
     </>
   );
-};
+}
 
 export default AddTech;

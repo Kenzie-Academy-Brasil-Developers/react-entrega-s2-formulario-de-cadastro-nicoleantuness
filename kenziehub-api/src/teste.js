@@ -1,5 +1,5 @@
-import { createContext, useState, useContext } from "react";
-import api from "../../api.js"
+/* import { createContext, useState, useContext, InputHTMLAttributes } from "react";
+ import api from "../../api.js"
 import { useForm } from "react-hook-form";
 
 import * as yup from "yup";
@@ -7,13 +7,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useHistory } from "react-router-dom";
 
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-export const UserContext = createContext()
+export const UserContext = createContext( null );      
 
-export const UserProvider = ({ children }) =>  {
+interface Props extends InputHTMLAttributes<HTMLInputElement>{
+  children: React.ReactNode;
+}
+
+
+export const UserProvider = ({ children } : Props) =>  {
     const [ userTechs, setUserTechs ] = useState([])
     const userToken = window.localStorage.getItem("token");
 
@@ -43,14 +49,31 @@ export const UserProvider = ({ children }) =>  {
       defaultValues: { email: "", password: "" },
     });
 
-    const onSubmitFunction = (dataUser) => {
+    interface Data {
+      email: string;
+      pasword: string;
+    }
+
+    interface DataUser{
+      dataUser: Data;
+    }
+
+    interface ResponseLogin{
+      response: any;
+    }
+
+    interface ErrorLogin {
+      error: any;
+    }
+
+    const onSubmitFunction = ({dataUser} : DataUser) => {
       console.log(dataUser)
       window.localStorage.clear();
       api
         .post("/sessions", dataUser, {
           headers: { "Content-Type": "application/json" },
         })
-        .then((response) => {
+        .then(({response} : ResponseLogin) => {
           const userId = response.data.user.id;
           window.localStorage.setItem("userId", userId);
   
@@ -76,7 +99,7 @@ export const UserProvider = ({ children }) =>  {
   
           setTimeout(goToHome, 1300);
         })
-        .catch((error) => {
+        .catch(({error} : ErrorLogin) => {
           console.log(error);
           toast.error(
             "Login sem sucesso! Por favor cheque se seu email e senha estão corretos",
@@ -158,4 +181,4 @@ export const UserProvider = ({ children }) =>  {
         )
 }
 
-export const useUser = () => useContext(UserContext)
+export const useUser = () => useContext(UserContext)   */
