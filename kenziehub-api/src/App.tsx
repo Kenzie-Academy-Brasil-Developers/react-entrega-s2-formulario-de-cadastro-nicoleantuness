@@ -6,11 +6,12 @@ import "./App.css";
 
 function App() {
   const [homePage, setHomePage] = useState(false);
+  const [loginPage, setLoginPage] = useState(false);
 
   return (
     <div className="App">
       <GlobalStyle />
-      <RoutesMain homePage={homePage} setHomePage={setHomePage} />
+      <RoutesMain homePage={homePage} setHomePage={setHomePage} setLoginPage={setLoginPage} />
     </div>
   );
 }

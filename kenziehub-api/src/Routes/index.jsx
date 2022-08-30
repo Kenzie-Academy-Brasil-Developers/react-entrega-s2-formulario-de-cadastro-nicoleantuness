@@ -2,9 +2,9 @@ import { Switch, Route } from 'react-router-dom';
 
 import Login from '../Components/Login';
 import Cadastrar from '../Components/Cadastrar';
-import Dashboard from '../Components/Dashboard';
+import Dashboard from '../Components/Dashboard/index.tsx';
 
-const RoutesMain = ({ homePage, setHomePage, loginPage, setLoginPage }) => {
+const RoutesMain = ({ homePage, setHomePage, setLoginPage }) => {
   return (
     <>
       <Switch>
@@ -12,7 +12,7 @@ const RoutesMain = ({ homePage, setHomePage, loginPage, setLoginPage }) => {
           <Login />
         </Route>
         <Route exact path="/register">
-          <Cadastrar loginPage={loginPage} setLoginPage={setLoginPage} />
+          <Cadastrar setLoginPage={setLoginPage} />
         </Route>
 
         <Route exact path="/home/:id">

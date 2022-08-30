@@ -11,7 +11,7 @@ import { MenuItem } from '@mui/material';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { useUser } from '../../contexts/users/index.js';
+import { useUser } from '../../contexts/users';
 
 import {
   HeaderStyle,
@@ -22,16 +22,13 @@ import {
   ButtonCreateStyle,
 } from './style';
 
-function FormRegister({ loginPage, setLoginPage }) {
-  const { onSubmitRegister,backToLogin } = useUser()
+
+
+function FormRegister() {
+  const { onSubmitRegister, backToLogin } = useUser()
   const history = useHistory();
   
-  const [module, setModule] = useState('Primeiro módulo');
-
-  const handleChange = (event) => {
-    setModule(event.target.value);
-  };
-
+  const [ login, setLoginPage ] = useState<boolean>(false)
 
   const formSchema = yup.object().shape({
     name: yup.string().required('Nome é obrigatório'),
@@ -169,8 +166,6 @@ function FormRegister({ loginPage, setLoginPage }) {
             size="small"
             {...register('course_module')}
             inputProps={{ MenuProps: { disableScrollLock: true } }}
-            value={module}
-            onChange={handleChange}
           >
               <MenuItem key={0} value='Primeiro módulo (Introdução ao Frontend)'>
               Primeiro módulo
